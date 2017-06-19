@@ -32,67 +32,84 @@ public class FreeBoardController {
 	}
 	
 	@RequestMapping(value= "freeBoardView", method = RequestMethod.GET)
-	public void freeBoardView(Model model, Integer num) throws Exception{
+	public String freeBoardView(Model model, Integer num) throws Exception{
 		System.out.println("freeBoardView Service");
-		/*
-		FreeBoardDTO freeBoardDTO = freeBoardService.freeBoardView(num);
-		model.addAttribute("freeBoardDTO", freeBoardDTO);*/
+		BoardDTO boardDTO = freeBoardService.boardView(num);		
+		model.addAttribute("boardDTO", boardDTO).addAttribute("board", "freeBoard");
+		return "board/boardView";
 	}
 	
 	@RequestMapping(value= "freeBoardWrite", method = RequestMethod.GET)
-	public void freeBoardWrite(Model model){
+	public String freeBoardWrite(Model model){
 		System.out.println("freeBoardWrite Service");
-		
-		/*model.addAttribute("path", "Write");*/
+		model.addAttribute("path", "Write").addAttribute("board", "freeBoard");
+		return "board/boardWrite";
 	}
 	
 	@RequestMapping(value= "freeBoardWrite", method = RequestMethod.POST)
-	public void freeBoardWrite(FreeBoardDTO freeBoardDTO, RedirectAttributes reAttributes) throws Exception{
-		System.out.println("freeBoardWrite Process Service");
-		
-		/*int result = freeBoardService.freeBoardWrite(freeBoardDTO);
+	public String freeBoardWrite(FreeBoardDTO freeBoardDTO, RedirectAttributes reAttributes) throws Exception{
+		System.out.println("freeBoardWrite Process Service");		
+		int result = freeBoardService.boardWrite(freeBoardDTO);
 		String message = "Write Fail";
 		if(result > 0){
 			message = "Write Success";
 		}
 		reAttributes.addFlashAttribute("message", message);
-		return "redirect:freeBoardList";*/
+		return "redirect:freeBoardList";
 	}
 	
 	@RequestMapping(value= "freeBoardUpdate", method = RequestMethod.GET)
-	public void freeBoardUpdate(Model model, Integer num) throws Exception{
-		System.out.println("freeBoardUpdate Service");
-		
-		/*FreeBoardDTO freeBoardDTO = freeBoardService.freeBoardView(num);
-		model.addAttribute("freeBoardDTO", freeBoardDTO);
-		model.addAttribute("path", "Update");
-		
-		return "freeboard/freeBoardWrite";*/
+	public String freeBoardUpdate(Model model, Integer num) throws Exception{
+		System.out.println("freeBoardUpdate Service");		
+		BoardDTO boardDTO = freeBoardService.boardView(num);
+		model.addAttribute("boardDTO", boardDTO).addAttribute("path", "Update").addAttribute("board", "freeBoard");
+		return "board/boardWrite";
 	}
 	
 	@RequestMapping(value= "freeBoardUpdate", method = RequestMethod.POST)
-	public void freeBoardUpdate(FreeBoardDTO freeBoardDTO, RedirectAttributes reAttributes) throws Exception{
+	public String freeBoardUpdate(FreeBoardDTO freeBoardDTO, RedirectAttributes reAttributes) throws Exception{
 		System.out.println("freeBoardUpdate Process Service");
 		
-		/*int result = freeBoardService.freeBoardUpdate(freeBoardDTO);
+		int result = freeBoardService.boardUpdate(freeBoardDTO);
 		String message = "Update Fail";
 		if(result > 0){
 			message = "Update Success";
 		}
 		reAttributes.addFlashAttribute("message", message);
-		return "redirect:freeBoardView?num="+freeBoardDTO.getNum();*/
+		return "redirect:freeBoardView?num="+freeBoardDTO.getNum();
 	}
 	
 	@RequestMapping(value= "freeBoardDelete", method = RequestMethod.GET)
-	public void freeBoardDelete(Integer num, RedirectAttributes reAttributes) throws Exception{
+	public String freeBoardDelete(Integer num, RedirectAttributes reAttributes) throws Exception{
 		System.out.println("freeBoardDelete Service");
 		
-		/*int result = freeBoardService.freeBoardDelete(num);
+		int result = freeBoardService.boardDelete(num);
 		String message = "Delete Fail";
 		if(result > 0){
 			message = "Delete Success";
 		}
 		reAttributes.addFlashAttribute("message", message);
-		return "redirect:freeBoardList";*/
+		return "redirect:freeBoardList";
+	}
+	
+	@RequestMapping(value= "freeBoardReply", method = RequestMethod.GET)
+	public String freeBoardReply(Model model, Integer num){
+		System.out.println("freeBoardReply Service");
+		BoardDTO boardDTO = new BoardDTO();
+		boardDTO.setNum(num);
+		model.addAttribute("boardDTO", boardDTO).addAttribute("path", "Reply").addAttribute("board", "freeBoard");
+		return "board/boardWrite";
+	}
+	
+	@RequestMapping(value= "freeBoardReply", method = RequestMethod.POST)
+	public String freeBoardReply(FreeBoardDTO freeBoardDTO, RedirectAttributes reAttributes) throws Exception{
+		System.out.println("freeBoardReply Process Service");		
+		int result = freeBoardService.boardReply(freeBoardDTO);
+		String message = "Reply Fail";
+		if(result > 0){
+			message = "Reply Success";
+		}
+		reAttributes.addFlashAttribute("message", message);
+		return "redirect:freeBoardList";
 	}
 }

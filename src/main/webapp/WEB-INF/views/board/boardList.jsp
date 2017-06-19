@@ -22,7 +22,7 @@
 </style>
 </head>
 <body>
-	<h1> ${board} List </h1>
+	<h1 align="center"> ${board} List </h1>
 	<table class="table table-striped">
       <thead>
       	<tr>
@@ -36,12 +36,13 @@
                <td>
                		<c:catch>
                		<c:forEach begin="1" end="${dto.depth}" var="i">
-               			<c:if test="${i eq 1}">└</c:if> 
+               			&nbsp;
+               			<c:if test="${i eq 1}">└</c:if>
                			<c:if test="${i eq dto.depth}">RE:</c:if>
                		</c:forEach>
                		
                		</c:catch>
-               		<a href="noticeView?num=${ dto.num }" style="color: black; text-decoration: none;">${ dto.title }</a>
+               		<a href="${board}View?num=${ dto.num }" style="color: black; text-decoration: none;">${ dto.title }</a>
                	</td>
                <td>${ dto.writer }</td>
                <td>${ dto.reg_date }</td>
@@ -51,6 +52,7 @@
       </tbody>
      </table>
 
-	<a href="${board}Write">Write</a>
+	<a href="${board}Write" class="btn btn-default">Write</a>
+	
 </body>
 </html>

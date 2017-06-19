@@ -31,16 +31,20 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value = "noticeView", method = RequestMethod.GET)
-	public void noticeView(Model model, Integer num) throws Exception{
+	public String noticeView(Model model, Integer num) throws Exception{
 		if(num != null){ 
 			BoardDTO boardDTO = noticeService.boardView(num);
+			model.addAttribute("board", "notice");
 			model.addAttribute("boardDTO", boardDTO);
 		}
+		return "board/boardView";
 	}
 	
 	@RequestMapping(value = "noticeWrite", method = RequestMethod.GET)
-	public void noticeWrite(Model model){		
+	public String noticeWrite(Model model){
+		model.addAttribute("board", "notice");
 		model.addAttribute("path", "Write");
+		return "board/boardWrite";
 	}
 	
 	@RequestMapping(value = "noticeWrite", method = RequestMethod.POST)
@@ -65,9 +69,10 @@ public class NoticeController {
 			System.out.println(num);
 			BoardDTO boardDTO = noticeService.boardView(num);
 			model.addAttribute("boardDTO", boardDTO);
+			model.addAttribute("board", "notice");
 			model.addAttribute("path", "Update");
 		}
-		return "notice/noticeWrite";
+		return "board/boardWrite";
 	}
 	
 	@RequestMapping(value = "noticeUpdate", method = RequestMethod.POST)
