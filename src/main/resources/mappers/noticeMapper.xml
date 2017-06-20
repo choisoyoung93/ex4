@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="noticeMapper">
 	<select id="list" resultType="com.choa.notice.NoticeDTO" parameterType="com.choa.util.RowMaker">
-		select * from (select ROWNUM R, N.* from (select * from NOTICE order by NUM desc) N) where R between #{startRow} and #{lastRow}
+		select * from (select ROWNUM R, N.* from (select * from NOTICE order by NUM DESC) N) where R between #{startRow} and #{lastRow}
 	</select>
 	<select id="view" resultType="com.choa.notice.NoticeDTO" parameterType="java.lang.Integer">
 		select * from NOTICE where NUM=#{num}

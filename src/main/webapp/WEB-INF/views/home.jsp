@@ -6,7 +6,6 @@
 </head>
 <body>
 <a href="notice/noticeList">Notice List</a>
-<a href="notice/noticeView?num=1">Notice View</a>
 <a href="freeboard/freeBoardList">FreeBoard List</a>
 <h1>
 	Hello world!  

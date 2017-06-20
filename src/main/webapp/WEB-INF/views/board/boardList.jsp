@@ -23,6 +23,19 @@
 </head>
 <body>
 	<h1 align="center"> ${board} List </h1>
+	
+	<div>
+		<form action="">
+			<select name="search">
+				<option value="writer">WRITER</option>
+				<option value="title">TITLE</option>
+				<option value="contents">CONTENTS</option>
+			</select>
+			<input type="text" name="find">
+			<input type="submit" value="SEARCH" class="btn btn-default">
+		</form>
+	</div>
+	
 	<table class="table table-striped">
       <thead>
       	<tr>
@@ -36,9 +49,9 @@
                <td>
                		<c:catch>
                		<c:forEach begin="1" end="${dto.depth}" var="i">
-               			&nbsp;
-               			<c:if test="${i eq 1}">└</c:if>
-               			<c:if test="${i eq dto.depth}">RE:</c:if>
+               			&nbsp;&nbsp;
+               			<%-- <c:if test="${i eq 1}"></c:if> --%>
+               			<c:if test="${i eq dto.depth}">└RE:</c:if>
                		</c:forEach>
                		
                		</c:catch>

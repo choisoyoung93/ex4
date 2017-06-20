@@ -21,19 +21,14 @@ public class FreeBoardController {
 	private FreeBoardServiceImpl freeBoardService;
 	
 	@RequestMapping(value= "freeBoardList", method = RequestMethod.GET)
-	public String freeBoardList(Model model, @RequestParam(defaultValue = "1") Integer curPage) throws Exception{
-		System.out.println("freeBoardList Service");
-		
+	public String freeBoardList(Model model, @RequestParam(defaultValue = "1") Integer curPage) throws Exception{		
 		List<BoardDTO> freeBoardList = freeBoardService.boardList(curPage);
-		model.addAttribute("boardList", freeBoardList);
-		model.addAttribute("board", "freeBoard");
-		
+		model.addAttribute("boardList", freeBoardList).addAttribute("board", "freeBoard");		
 		return "board/boardList";
 	}
 	
 	@RequestMapping(value= "freeBoardView", method = RequestMethod.GET)
 	public String freeBoardView(Model model, Integer num) throws Exception{
-		System.out.println("freeBoardView Service");
 		BoardDTO boardDTO = freeBoardService.boardView(num);		
 		model.addAttribute("boardDTO", boardDTO).addAttribute("board", "freeBoard");
 		return "board/boardView";
@@ -41,14 +36,12 @@ public class FreeBoardController {
 	
 	@RequestMapping(value= "freeBoardWrite", method = RequestMethod.GET)
 	public String freeBoardWrite(Model model){
-		System.out.println("freeBoardWrite Service");
 		model.addAttribute("path", "Write").addAttribute("board", "freeBoard");
 		return "board/boardWrite";
 	}
 	
 	@RequestMapping(value= "freeBoardWrite", method = RequestMethod.POST)
 	public String freeBoardWrite(FreeBoardDTO freeBoardDTO, RedirectAttributes reAttributes) throws Exception{
-		System.out.println("freeBoardWrite Process Service");		
 		int result = freeBoardService.boardWrite(freeBoardDTO);
 		String message = "Write Fail";
 		if(result > 0){
@@ -60,7 +53,6 @@ public class FreeBoardController {
 	
 	@RequestMapping(value= "freeBoardUpdate", method = RequestMethod.GET)
 	public String freeBoardUpdate(Model model, Integer num) throws Exception{
-		System.out.println("freeBoardUpdate Service");		
 		BoardDTO boardDTO = freeBoardService.boardView(num);
 		model.addAttribute("boardDTO", boardDTO).addAttribute("path", "Update").addAttribute("board", "freeBoard");
 		return "board/boardWrite";
@@ -68,8 +60,6 @@ public class FreeBoardController {
 	
 	@RequestMapping(value= "freeBoardUpdate", method = RequestMethod.POST)
 	public String freeBoardUpdate(FreeBoardDTO freeBoardDTO, RedirectAttributes reAttributes) throws Exception{
-		System.out.println("freeBoardUpdate Process Service");
-		
 		int result = freeBoardService.boardUpdate(freeBoardDTO);
 		String message = "Update Fail";
 		if(result > 0){
@@ -81,8 +71,6 @@ public class FreeBoardController {
 	
 	@RequestMapping(value= "freeBoardDelete", method = RequestMethod.GET)
 	public String freeBoardDelete(Integer num, RedirectAttributes reAttributes) throws Exception{
-		System.out.println("freeBoardDelete Service");
-		
 		int result = freeBoardService.boardDelete(num);
 		String message = "Delete Fail";
 		if(result > 0){
@@ -94,7 +82,6 @@ public class FreeBoardController {
 	
 	@RequestMapping(value= "freeBoardReply", method = RequestMethod.GET)
 	public String freeBoardReply(Model model, Integer num){
-		System.out.println("freeBoardReply Service");
 		BoardDTO boardDTO = new BoardDTO();
 		boardDTO.setNum(num);
 		model.addAttribute("boardDTO", boardDTO).addAttribute("path", "Reply").addAttribute("board", "freeBoard");
@@ -103,7 +90,6 @@ public class FreeBoardController {
 	
 	@RequestMapping(value= "freeBoardReply", method = RequestMethod.POST)
 	public String freeBoardReply(FreeBoardDTO freeBoardDTO, RedirectAttributes reAttributes) throws Exception{
-		System.out.println("freeBoardReply Process Service");		
 		int result = freeBoardService.boardReply(freeBoardDTO);
 		String message = "Reply Fail";
 		if(result > 0){
