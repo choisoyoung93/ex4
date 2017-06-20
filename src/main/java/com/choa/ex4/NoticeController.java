@@ -8,13 +8,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.choa.board.BoardDTO;
 import com.choa.notice.NoticeDTO;
 import com.choa.notice.NoticeServiceImpl;
+import com.choa.util.ListInfo;
+import com.choa.util.MakePage;
+import com.choa.util.PageMaker;
+import com.choa.util.RowMaker;
 
 @Controller
 @RequestMapping(value = "/notice/**")
@@ -23,10 +26,15 @@ public class NoticeController {
 	private NoticeServiceImpl noticeService;
 	
 	@RequestMapping(value = "noticeList", method = RequestMethod.GET)
-	public String noticeList(Model model, @RequestParam(defaultValue="1") Integer curPage) throws Exception{		
-		List<BoardDTO> boardList = noticeService.boardList(curPage);
-		model.addAttribute("board", "notice");
-		model.addAttribute("boardList", boardList);
+	public String noticeList(Model model, ListInfo listInfo) throws Exception{
+		PageMaker pageMaker = new PageMaker(listInfo.getCurPage());
+		RowMaker rowMaker = pageMaker.getRowMaker(listInfo.getKind(), listInfo.getSearch());
+		int totalCount = noticeService.boardCount(rowMaker);
+		MakePage makePage = pageMaker.getMakePage(totalCount);
+		List<BoardDTO> boardList = noticeService.boardList(rowMaker);
+		
+		model.addAttribute("board", "notice").addAttribute("boardList", boardList);
+		model.addAttribute("makePage", makePage).addAttribute("kind", listInfo.getKind()).addAttribute("search", listInfo.getSearch()).addAttribute("curPage", listInfo.getCurPage());
 		return "board/boardList";
 	}
 	
@@ -48,8 +56,7 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value = "noticeWrite", method = RequestMethod.POST)
-	public ModelAndView noticeWrite(NoticeDTO noticeDTO, RedirectAttributes reAttributes) throws Exception{		
-		System.out.println("Notice Write Process");
+	public ModelAndView noticeWrite(NoticeDTO noticeDTO, RedirectAttributes reAttributes) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		int result = noticeService.boardWrite(noticeDTO);
 		String message = "FAIL";

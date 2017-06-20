@@ -8,39 +8,24 @@ import org.springframework.stereotype.Service;
 
 import com.choa.board.BoardDTO;
 import com.choa.board.BoardService;
-//import com.choa.util.MakePage;
-import com.choa.util.PageMaker;
 import com.choa.util.RowMaker;
 
 @Service
 //NoticeService noticeService = new NoticeService();
 public class NoticeServiceImpl implements BoardService{
 	@Autowired
-	private NoticeDAOImpl noticeDAO;
-	
-	/*public NoticeService(NoticeDAO noticeDAO) {
-		this.noticeDAO = noticeDAO;
-	}	
-	public void setNoticeDAO(NoticeDAO noticeDAO) {
-		this.noticeDAO = noticeDAO;
-	}*/
-
-	
+	private NoticeDAOImpl noticeDAO;	
 	
 	@Override
-	public List<BoardDTO> boardList(int curPage) throws Exception {
-		PageMaker pageMaker = new PageMaker(curPage);
-		RowMaker rowMaker = pageMaker.getRowMaker(null, null);
-		//int totalCount = noticeDAO.boardCount();	
-		//MakePage makePage = pageMaker.getMakePage(totalCount);
+	public List<BoardDTO> boardList(RowMaker rowMaker) throws Exception {
 		List<BoardDTO> noticeArr = noticeDAO.boardList(rowMaker);
 		return noticeArr;
 	}
 	
 	@Override
 	public BoardDTO boardView(int num) throws Exception {
-		BoardDTO noticeDTO = noticeDAO.boardView(num);		
 		noticeDAO.boardHit(num);
+		BoardDTO noticeDTO = noticeDAO.boardView(num);		
 		return noticeDTO;
 	}
 	
@@ -57,5 +42,10 @@ public class NoticeServiceImpl implements BoardService{
 	@Override
 	public int boardDelete(int num) throws Exception {
 		return noticeDAO.boardDelete(num);
+	}
+	
+	@Override
+	public int boardCount(RowMaker rowMaker) throws Exception {
+		return noticeDAO.boardCount(rowMaker);
 	}
 }

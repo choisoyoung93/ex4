@@ -14,8 +14,7 @@ import com.choa.util.RowMaker;
 public class FreeBoardDAOImpl implements BoardDAO{
 	@Autowired
 	private SqlSession sqlSession;
-	private static final String NAMESPACE = "freeBoardMapper.";
-	
+	private static final String NAMESPACE = "freeBoardMapper.";	
 	
 	@Override
 	public List<BoardDTO> boardList(RowMaker rowMaker) throws Exception {		
@@ -43,8 +42,8 @@ public class FreeBoardDAOImpl implements BoardDAO{
 	}
 
 	@Override
-	public int boardCount() throws Exception {
-		return sqlSession.selectOne(NAMESPACE+"count");
+	public int boardCount(RowMaker rowMaker) throws Exception {
+		return sqlSession.selectOne(NAMESPACE+"count", rowMaker);
 	}
 
 	@Override

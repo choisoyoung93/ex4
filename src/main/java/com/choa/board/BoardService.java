@@ -2,9 +2,11 @@ package com.choa.board;
 
 import java.util.List;
 
+import com.choa.util.RowMaker;
+
 public interface BoardService {
 	//List
-	public List<BoardDTO> boardList(int curPage) throws Exception;
+	public List<BoardDTO> boardList(RowMaker rowMaker) throws Exception;
 	
 	//View
 	public BoardDTO boardView(int num) throws Exception;
@@ -17,4 +19,7 @@ public interface BoardService {
 	
 	//Delete
 	public int boardDelete(int num) throws Exception;
+	
+	//Count
+	public int boardCount(RowMaker rowMaker) throws Exception;
 }

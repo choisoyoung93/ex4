@@ -7,12 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.choa.board.BoardDTO;
 import com.choa.freeboard.FreeBoardDTO;
 import com.choa.freeboard.FreeBoardServiceImpl;
+import com.choa.util.ListInfo;
+import com.choa.util.MakePage;
+import com.choa.util.PageMaker;
+import com.choa.util.RowMaker;
 
 @Controller
 @RequestMapping(value = "/freeboard/**")
@@ -21,9 +24,15 @@ public class FreeBoardController {
 	private FreeBoardServiceImpl freeBoardService;
 	
 	@RequestMapping(value= "freeBoardList", method = RequestMethod.GET)
-	public String freeBoardList(Model model, @RequestParam(defaultValue = "1") Integer curPage) throws Exception{		
-		List<BoardDTO> freeBoardList = freeBoardService.boardList(curPage);
-		model.addAttribute("boardList", freeBoardList).addAttribute("board", "freeBoard");		
+	public String freeBoardList(Model model, ListInfo listInfo) throws Exception{
+		PageMaker pageMaker = new PageMaker(listInfo.getCurPage());
+		RowMaker rowMaker = pageMaker.getRowMaker(listInfo.getKind(), listInfo.getSearch());
+		int totalCount = freeBoardService.boardCount(rowMaker);
+		MakePage makePage = pageMaker.getMakePage(totalCount);
+		List<BoardDTO> freeBoardList = freeBoardService.boardList(rowMaker);
+		
+		model.addAttribute("boardList", freeBoardList).addAttribute("board", "freeBoard").addAttribute("makePage", makePage);	
+		model.addAttribute("kind", listInfo.getKind()).addAttribute("search", listInfo.getSearch()).addAttribute("curPage", listInfo.getCurPage());
 		return "board/boardList";
 	}
 	

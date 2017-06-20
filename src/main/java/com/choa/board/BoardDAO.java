@@ -21,7 +21,7 @@ public interface BoardDAO {
 	public int boardDelete(int num) throws Exception;
 	
 	//Count
-	public int boardCount() throws Exception;
+	public int boardCount(RowMaker rowMaker) throws Exception;
 	
 	//Hit
 	public void boardHit(int num) throws Exception;

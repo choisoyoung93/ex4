@@ -5,11 +5,11 @@ public class MakePage {
 	private int totalBlock;
 	private int startNum;
 	private int lastNum;
+	private int totalPage;
 	
 	public int getTotalPage() {
 		return totalPage;
 	}
-	private int totalPage;
 	
 	public int getCurBlock() {
 		return curBlock;
@@ -44,7 +44,11 @@ public class MakePage {
 		}
 		
 		startNum = (curBlock - 1) * perBlock + 1;
-		lastNum = curBlock * perBlock;
+		if(totalCount==0){
+			lastNum = 1;
+		}else{			
+			lastNum = curBlock * perBlock;
+		}
 		
 		if(curBlock == totalBlock)
 			lastNum = totalPage;

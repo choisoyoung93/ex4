@@ -33,9 +33,12 @@ public class NoticeDAOImplTest extends MyAbstractTest{
 		int result = dao.boardUpdate(boardDTO);
 		System.out.println("writer: "+boardDTO.getWriter() + ", title: "+ boardDTO.getTitle());*/
 		PageMaker pageMaker = new PageMaker(1);
-		RowMaker rowMaker = pageMaker.getRowMaker(null, null);
-		List<BoardDTO> ar = dao.boardList(rowMaker);
-		System.out.println("size: "+ ar.size());
-		assertNotEquals(1, ar.size());
+		RowMaker rowMaker = pageMaker.getRowMaker("writer", "choa");
+		int count = dao.boardCount(rowMaker);
+		System.out.println(count);
+		//List<BoardDTO> ar = dao.boardList(rowMaker);
+		assertNotEquals(1, count);
+		
+		
 	}
 }

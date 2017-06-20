@@ -1,12 +1,6 @@
 package com.choa.notice;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.choa.board.BoardDAO;
 import com.choa.board.BoardDTO;
-import com.choa.util.DBConnect;
 import com.choa.util.RowMaker;
 
 @Repository
@@ -24,12 +17,6 @@ public class NoticeDAOImpl implements BoardDAO{
 	@Autowired
 	private SqlSession sqlSession;
 	private static final String NAMESPACE = "noticeMapper.";
-	
-	/*public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}*/
-	
-	
 	
 	@Override
 	public List<BoardDTO> boardList(RowMaker rowMaker) throws Exception {
@@ -58,8 +45,8 @@ public class NoticeDAOImpl implements BoardDAO{
 	}
 
 	@Override
-	public int boardCount() throws Exception {
-		return sqlSession.selectOne(NAMESPACE+"count");
+	public int boardCount(RowMaker rowMaker) throws Exception {
+		return sqlSession.selectOne(NAMESPACE+"count", rowMaker);
 	}
 
 	public void boardHit(int num) throws Exception{
